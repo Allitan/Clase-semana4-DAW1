@@ -9,6 +9,8 @@ const usuarios = [{
     "password":"1234"
 }];
 
+app.use(express.json());
+
 //Bloque de codigo para las rutas
 app.get('/usuarios/:id', (req, res)=>{
     let id = req.params.id;
@@ -17,14 +19,14 @@ app.get('/usuarios/:id', (req, res)=>{
 });
 
 app.get('/usuarios',(req, res)=>{
-    res.json(usuarios);
+    res.status(400).json(usuarios);
 });
 
 app.post('/usuarios', (req, res)=>{
+    const id = req.params.id;
     const usuario = req.body;
-    console.log(usuario);
     usuarios.push(usuario);
-    res.json({message:"Success",data:usuario});
+    res.json({message:"Success",data:usuario, id:id});
 });
 
 app.listen(PORT,()=>{
