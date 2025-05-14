@@ -22,11 +22,11 @@ app.get('/usuarios',(req, res)=>{
     res.status(400).json(usuarios);
 });
 
-app.post('/usuarios', (req, res)=>{
-    const id = req.params.id;
+app.post('/usuarios/:id', (req,res)=>{
+    const id = parseInt(req.params.id);
     const usuario = req.body;
     usuarios.push(usuario);
-    res.json({message:"Success",data:usuario, id:id});
+    res.json({message:"Nuevo mensaje",data:usuario, id:id});
 });
 
 app.listen(PORT,()=>{
