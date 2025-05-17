@@ -3,7 +3,7 @@ const app = express();
 const fs = require('fs');
 const PORT = 3000;
 
-
+//Middlework
 app.use(express.json());
 
 function readUsers(){
@@ -12,14 +12,21 @@ function readUsers(){
 }
 
 function saveUsers(users){
-    fs.writeFileSync('Usuarios,json',JSON.stringify(users,null,2));
+    fs.writeFileSync('Usuarios.json',JSON.stringify(users,null,2));
 }
 
 //Bloque de codigo para las rutas
 app.get('/usuarios/:id', (req, res)=>{
-    let id = req.params.id;
-    console.log(id);
-    res.json({username:'jperez', id:'1', password:'1234'});
+    let id = parseInt(req.params.id);
+    const usuarios = readUsers();
+    const usuario = usuarios.find(user => user.id === id);
+
+    if(usuario){
+        res.json({status:200, message:"success", data:usuario});
+    }else{
+        res.status({status:400, message:"Registro no encontrado", data:null});
+    }
+    
 });
 
 app.get('/usuarios',(req, res)=>{
@@ -30,6 +37,12 @@ app.post('/usuarios', (req,res)=>{
    // const id = parseInt(req.params.id);
     const usuario = req.body;
     const usuarios = readUsers();
+    const user = usuarios.find(u => u.id === usuario.id);
+    if(user){
+        res.status(400).json({status:400, message: "Este id ya fue registrado..", data:usuario})
+    }else{
+        res.json({status:200,message:"Registro exitoso...",data:usuario}); 
+    }
     usuarios.push(usuario);
     saveUsers(usuarios);
     res.json({status:200,message:"Registro exitoso...",data:usuario});
