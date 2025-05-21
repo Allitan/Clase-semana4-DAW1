@@ -37,22 +37,16 @@ app.post('/usuarios', (req,res)=>{
    // const id = parseInt(req.params.id);
     const usuario = req.body;
     const usuarios = readUsers();
-    const user = usuarios.find(u => u.id === usuario.id);
-    if(user){
-        res.status(400).json({status:400, message: "Este id ya fue registrado..", data:usuario})
-    }else{
-        res.json({status:200,message:"Registro exitoso...",data:usuario}); 
-    }
     usuarios.push(usuario);
     saveUsers(usuarios);
-    res.json({status:200,message:"Registro exitoso...",data:usuario});
+    res.json({status:200, message: 'Registro exitoso...', data: usuario});
 });
 
 app.put('/usuarios',(req,res)=>{
     const usuario = req.body;
     const usuarios = readUsers();
     let exists = false;
-    usuarios.array.forEach(user => {
+    usuarios.forEach(user => {
         if(user.id === usuario.id){
             exists = true;
             user.username = usuario.username;
@@ -81,7 +75,7 @@ app.delete('/usuarios/:id',(req,res)=>{
         saveUsers(filtroUsuarios);
         res.status(200).json({status:200, message: "Registro eliminado con exito..", data:null});
     }else{
-        res.status(400).json({status:400, message: "Registro no encontrado..", data:usuario});
+        res.status(400).json({status:400, message: "Registro no encontrado..", data:null});
     }
 });
 

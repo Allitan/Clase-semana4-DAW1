@@ -1,3 +1,9 @@
 [
-  null
+  {
+    "id": 3,
+    "username": "rossef",
+    "email": "rosseflores1@gmail.com",
+    "celphone": "34783838",
+    "password": "46674"
+  }
 ]
